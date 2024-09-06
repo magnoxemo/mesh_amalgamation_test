@@ -12,7 +12,7 @@ class Zcylinder():
         self.r=radius
         self.tolerance=10**-6
         
-    def particle_position_confirm(self,x,y,z):     
+    def particle_position_confirm(self,x,y):     
         ''' 
         this function will confirm that if the particle is with in the cylinder or outside of it.
 
@@ -50,13 +50,22 @@ class  Cell():
         return id 
 
     def particle_within_this_cell(self,r:list):
+
+        ''' same as the def particle_position_confirm() method [that returns the positive, negative or zero value ] but this particle_within_this_cell function 
+            can check inbetween different layers. I think when we do finally define the amalgamation region, from coding perspective I can treat them as a cell. 
+            I will have to ask Paul about it.
+            
+            but what is the on the fly least_gradient_mesh_finder() finds only two mesh rather than a single layer? [#I need to code it first]
+        '''
         x=r[0]
         y=r[1]
-        z=r[2]
+        #z=r[2] only 
+
         generated_id_number=[]
 
         for _ in self.surfaces:
-            if _.particle_position_confirm(x,y,z)<0 or _.particle_position_confirm(x,y,z)==0:
+            ''' searching all the '''
+            if _.particle_position_confirm(x,y)<0 or _.particle_position_confirm(x,y)==0:
                 generated_id_number.append(0)
             elif _.particle_position_confirm(x,y,z)>0:
                 generated_id_number.append(1)
