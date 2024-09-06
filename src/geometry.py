@@ -5,30 +5,31 @@ from math import *
 class Zcylinder():
     
     def __init__(self,x0:float,y0:float,radius:float):
+        """
+        (x0,y0)---> center of the pincell. It is recomended that not putting the center at the origin which will break the mesh tracking script.  """
         self.x0=x0
         self.y0=y0
         self.r=radius
         self.tolerance=10**-6
         
-    def particle_position_confirm(self,x,y,z):        
+    def particle_position_confirm(self,x,y,z):     
+        ''' 
+        this function will confirm that if the particle is with in the cylinder or outside of it.
+
+        if val is negative--> then inside 
+        if val is positive--> then outside
+        if val=0 then on the surface.
+        
+        '''   
         val=(x-self.x0)**2+(y-self.y0)**2-self.r**2
         return val
-
-    def surface_normal(self,x,y):
-
-        if abs((x-self.x0)**2+(y-self.y0)**2+-self.radius**2)<self.tolarence:
-            
-            normal= [2*(x-self.x0),2*(y-self.y0)]
-            return np.array(normal)/np.linalg.norm(normal)
-        else:
-            raise ValueError("Point is not on the surface " + str(self.id))
 
 
 class  Cell():
     def __init__(self,surface_array:list,indicator_array:list):
         """
            surface array will contain object of surface class.
-           indicator array will contain logic like : inside,outside and on_the_surface. 
+           indicator array will contain logic like : insidegit,outside and on_the_surface. 
            the suface and the indicator array needs to be in the same order.     
         """
         self.surfaces=surface_array
