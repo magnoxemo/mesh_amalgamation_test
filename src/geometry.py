@@ -25,14 +25,14 @@ class Zcylinder():
         val=(x-self.x0)**2+(y-self.y0)**2-self.r**2
         return val
     
-    def plot(self,color='blue'):
+    def plot_data(self):
 
         x=np.linspace(self.x0-self.r,self.x0+self.r,num=100)
         y=self.y0+np.sqrt(self.r*self.r-(x-self.x0)**2)
 
-        plt.figure(figsize=(10,10))
-        plt.plot(x,y,color=color)
-        plt.plot(x,-y,color=color)
+        return x,y,-y
+    
+
 
         
 
@@ -40,12 +40,46 @@ class Plane():
     def __init__(self,a:float,b:float,c:float,d:float):
         '''
         rather than indiviual Xplane, Yplane I can create a class for the generalized plane.
-        But I will have to '''
+        But I will have to put c=0 other wise it will crate a 3D surface.
+
+        '''
         self.a=a
         self.b=b
         self.c=c
         self.d=d
-        pass
+
+    def particle_position_confirm(self,x,y):     
+        ''' 
+        this function will confirm that if the particle's side of the plane.
+
+        if val is negative--> then right side of the plane
+        if val is positive--> then left side
+        if val=0 then on the plane.
+        
+        val=ax+by+cz-d
+
+        please don't put both of the co-efficients (a,b) equal to zero :)
+        '''   
+        val=self.a*x+self.b*y-self.d
+        return val
+    
+    def plot_data(self,min:float,max:float,color='blue'):
+
+        '''
+        min and max--> from min position to max position will be plotted 
+        '''
+        x=np.linspace(min,max,num=100)
+        if self.b!=0:
+            y=(self.d-self.a*x)/self.b
+        elif (self.a!=0):
+            y=x
+            x=(self.d-self.b*y)/self.a
+
+        return x,y 
+    
+
+        
+
 
 class  Cell():
     def __init__(self,surface_array:list,indicator_array:list):
@@ -105,6 +139,17 @@ class  Cell():
             return 0
         
 
+'''
+cylinder=Zcylinder(x0=0,y0=0,radius=12)
+x,y,y_=cylinder.plot_data()
 
-#cylinder=Zcylinder(x0=0,y0=0,radius=1)
-#cylinder.plot()
+plt.figure(figsize=(10,10))
+plt.plot(x,y,color='red')
+plt.plot(x,y_,color='red')
+X_plane=Plane(a=1,b=0,c=0,d=12)
+x,y=X_plane.plot_data(min=-10,max=10)
+plt.plot(x,y,color='blue')
+plt.show()  
+
+'''
+
