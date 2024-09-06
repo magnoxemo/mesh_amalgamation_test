@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt 
 from math import *
 
 
@@ -23,7 +24,28 @@ class Zcylinder():
         '''   
         val=(x-self.x0)**2+(y-self.y0)**2-self.r**2
         return val
+    
+    def plot(self,color='blue'):
 
+        x=np.linspace(self.x0-self.r,self.x0+self.r,num=100)
+        y=self.y0+np.sqrt(self.r*self.r-(x-self.x0)**2)
+
+        plt.figure(figsize=(10,10))
+        plt.plot(x,y,color=color)
+        plt.plot(x,-y,color=color)
+
+        
+
+class Plane():
+    def __init__(self,a:float,b:float,c:float,d:float):
+        '''
+        rather than indiviual Xplane, Yplane I can create a class for the generalized plane.
+        But I will have to '''
+        self.a=a
+        self.b=b
+        self.c=c
+        self.d=d
+        pass
 
 class  Cell():
     def __init__(self,surface_array:list,indicator_array:list):
@@ -81,3 +103,8 @@ class  Cell():
         else:
             print("particle is not found in this cell ") 
             return 0
+        
+
+
+#cylinder=Zcylinder(x0=0,y0=0,radius=1)
+#cylinder.plot()
